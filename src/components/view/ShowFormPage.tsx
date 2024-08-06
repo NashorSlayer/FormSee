@@ -7,26 +7,30 @@ import { Container } from '@mui/joy';
 import CreateForm from '../CreateForm';
 import AddAreasToForm from '../AddAreasToForm';
 import PreviewAreas from '../PreviewAreas';
+import { useFormStore } from '@/store/formStore';
 
 
-
+const steps = ['Create Form', 'Add Areas', 'Preview']
+const areasList = [
+    'Area 1',
+    'Area 2',
+    'Area 3',
+    'Area 4',
+    'Area 5',
+    'Area 6',
+    'Area 7',
+    'Area 8',
+    'Area 9',
+    'Area 10'
+]
 
 const ShowFormPage = () => {
-    const steps = ['Create Form', 'Add Areas', 'Preview']
-    const areasList = [
-        'Area 1',
-        'Area 2',
-        'Area 3',
-        'Area 4',
-        'Area 5',
-        'Area 6',
-        'Area 7',
-        'Area 8',
-        'Area 9',
-        'Area 10'
-    ]
 
-    const [activeStep, setActiveStep] = React.useState(3);
+    const { activeStep } = useFormStore(
+        (state) => ({
+            activeStep: state.form.activeStep
+        }),
+    );
 
     return (
         <section className=" bg-gray-50 dark:bg-gray-900">
@@ -44,10 +48,12 @@ const ShowFormPage = () => {
                         </div>
                     </div>
                     <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-                        {activeStep === 1 && <CreateForm />}
-                        {activeStep === 2 && <AddAreasToForm optionsList={areasList} />}
+                        <div>
+                            {activeStep === 1 && <CreateForm />}
+                            {activeStep === 2 && <AddAreasToForm optionsList={areasList} />}
+                        </div>
+                        {activeStep === 3 && <PreviewAreas optionsList={areasList} />}
                     </div>
-                    {activeStep === 3 && <PreviewAreas optionsList={areasList} />}
                 </div>
             </Container >
         </section >

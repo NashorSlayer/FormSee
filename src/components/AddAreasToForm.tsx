@@ -1,9 +1,11 @@
 "use client"
 import React from 'react'
-import { Autocomplete, Box, Container, Table, Typography } from '@mui/joy'
+import { Autocomplete, Box, Button, Container, Table, Typography } from '@mui/joy'
 import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import { Area, IArea } from '@/types/area.types';
 import DisplayAreasTable from './DisplayAreasTable';
+import { useFormStore } from '@/store/formStore';
+import { useRouter } from 'next/navigation';
 
 interface props {
     optionsList: string[]
@@ -11,9 +13,14 @@ interface props {
 
 const AddAreasToForm: React.FC<props> = ({ optionsList }) => {
 
-    const [loading, setLoading] = React.useState<boolean>(false)
-    const [value, setValue] = React.useState("")
-    const [inputValue, setInputValue] = React.useState("")
+    const { prevStep } = useFormStore();
+    const router = useRouter()
+
+
+    const handleBack = () => {
+        prevStep()
+        router.refresh()
+    }
 
     return (
         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -25,14 +32,20 @@ const AddAreasToForm: React.FC<props> = ({ optionsList }) => {
                 multiple={true}
                 options={optionsList}
                 placeholder='select areas' />
-            <div>
-                <Container>
-                    <Box>
-                        <DisplayAreasTable optionsList={optionsList} />
-                    </Box>
-                </Container>
-            </div>
-
+            <Box>
+                <DisplayAreasTable optionsList={optionsList} />
+            </Box>
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                <Button
+                    color='danger'
+                    onClick={handleBack}
+                >
+                    Back
+                </Button>
+                <Button
+                    color="primary"
+                >Next</Button>
+            </Box>
         </div>
     )
 }

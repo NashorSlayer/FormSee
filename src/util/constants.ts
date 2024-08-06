@@ -34,7 +34,7 @@ export enum AnswerBackendPath {
     DELETE_ANSWER = '/answers',
 }
 
-export const dataSetAreas = [
+export const dataSetResponse = [
     {
         "time_start": 2010,
         "time_end": 2012,

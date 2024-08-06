@@ -5,7 +5,6 @@ import AreaPillBar from './AreaPillBar'
 import { DndContext, closestCenter } from '@dnd-kit/core'
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { BarChart } from '@mui/x-charts/BarChart';
-import { dataSetAreas } from '@/util/constants'
 
 interface props {
     optionsList: string[]
@@ -43,11 +42,12 @@ const PreviewAreas: React.FC<props> = ({ optionsList }) => {
 
         <Container sx={{
             display: "flex ",
+            border: "2px solid grey",
             flexDirection: "column",
         }} >
             <Sheet sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: 8 }}>
-                <Typography level='h2' sx={{ textAlign: 'center' }}>Title</Typography>
-                <Typography level='h3' sx={{ textAlign: 'center' }}>Description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet molestias autem doloribus temporibus veniam quisquam, illo cumque fuga, aperiam corporis eveniet ipsam. Error nam ab quis eum aliquid nulla iste.</Typography>
+                <Typography level='h2' sx={{ textAlign: 'center' }}>Formulario Egresados</Typography>
+                <Typography level="h4" sx={{ textAlign: 'center' }}>Formulario para reunir la experiencia de Egresados basado en las posibles Áreas de Égreso</Typography>
             </Sheet>
             <Container sx={{
                 display: "flex ",
@@ -59,6 +59,7 @@ const PreviewAreas: React.FC<props> = ({ optionsList }) => {
                 >
                     <div className='w-1/4 max-h-screen' >
                         <Sheet>
+                            <Typography level="inherit" sx={{ textAlign: 'center' }}> Areas List</Typography>
                             <Stack
                                 spacing={2}
                                 alignItems={'center'}
@@ -77,14 +78,7 @@ const PreviewAreas: React.FC<props> = ({ optionsList }) => {
                     </div>
                     <Divider orientation="vertical" />
                     <div className='w-screen max-h-screen flex justify-center items-center'>
-                        <BarChart
-                            dataset={dataSetAreas}
-                            series={[{ dataKey: "time_end", label: "Time End (years)", color: "#8884d8" }]}
-                            layout="horizontal"
-                            grid={{ vertical: true }}
-                            yAxis={[{ scaleType: "band", dataKey: "area" }]}
-                            {...chartSetting}
-                        />
+
                     </div>
                 </DndContext>
             </Container>
