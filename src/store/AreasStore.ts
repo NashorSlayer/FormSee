@@ -12,8 +12,10 @@ interface AreaStore {
     areasForm: Array<Area>;
     addArea: (area: string) => void;
     removeArea: (area: Area) => void;
+    editArea: (oldName: string, newNam: string) => void;
     getAreas: () => Array<Area>;
     clearAreas: () => void;
+    AreaExists: (area: string) => boolean;
 }
 
 export const useAreaStore = create<AreaStore>()(persist((set, get) => {
@@ -23,16 +25,29 @@ export const useAreaStore = create<AreaStore>()(persist((set, get) => {
         areasFetch: [],
         areasForm: storedAreas ? JSON.parse(storedAreas) : [],
         addArea: (name) => set((state) => (
-            {
-                areasForm: [...state.areasForm, { name: name }]
-            })),
+            get().areasForm.some((a: Area) => a.name === name) ? state :
+                {
+                    areasForm: [...state.areasForm, { name: name }]
+                })),
         removeArea: (area) => set((state) => ({
-            areasForm: state.areasForm.filter((a: Area) => a.name !== area.name)
+            areasForm: get().areasForm.some((a: Area) => a.name === area.name) ?
+                state.areasForm.filter((a: Area) => a.name !== area.name)
+                : state.areasForm
         })),
         getAreas: () => get().areasFetch,
         clearAreas: () => set({
             areasForm: []
-        })
+        }),
+        editArea(oldName, newName) {
+            set((state) => {
+                const index = state.areasForm.findIndex((a: Area) => a.name === oldName);
+                state.areasForm[index] = { name: newName };
+                return state;
+            })
+        },
+        AreaExists: (area) => {
+            return get().areasForm.some((a: Area) => a.name === area)
+        }
     }
 }, {
     name: "areas-store"

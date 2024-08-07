@@ -1,9 +1,19 @@
 "use cliet"
 import { useAreaStore } from '@/store/AreasStore'
-import { Sheet, Table } from '@mui/joy'
+import { Box, Button, Sheet, Table } from '@mui/joy'
 import React from 'react'
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const DisplayAreasTable: React.FC = () => {
+
+
+    const { removeArea, editArea } = useAreaStore();
+
+    const handleEditArea = (area: string) => {
+
+    }
+
 
     const { areas } = useAreaStore((state) => ({
         areas: state.areasForm
@@ -14,13 +24,14 @@ const DisplayAreasTable: React.FC = () => {
                 stickyHeader
                 hoverRow
                 stripe={"odd"}
-                variant="soft"
+                variant="outlined"
                 borderAxis="xBetween"
             >
                 <thead>
                     <tr>
                         <th>Row</th>
                         <th>Name</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,6 +39,22 @@ const DisplayAreasTable: React.FC = () => {
                         <tr key={index}>
                             <td>{index + 1}</td>
                             <td>{area.name}</td>
+                            <td>
+                                <Box sx={{ display: 'flex', gap: 1 }}>
+                                    <Button
+                                        size="sm"
+                                        color="warning"
+                                        variant="outlined"
+                                    ><ModeEditIcon />
+                                    </Button>
+                                    <Button
+                                        size="sm"
+                                        color="danger"
+                                        variant="outlined"
+                                    ><DeleteIcon />
+                                    </Button>
+                                </Box>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

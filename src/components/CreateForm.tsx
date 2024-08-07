@@ -17,6 +17,7 @@ import React, { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 function validateDate(date: Date) {
+    console.log("🚀 ~ validateDate ~ date:", date)
 
     const today = new Date()
     const inputDate = new Date(date)
@@ -26,7 +27,7 @@ function validateDate(date: Date) {
     const dd = String(inputDate.getDate() + 1).padStart(2, '0')
     const inputFormated = new Date(`${yyyy}/${mm}/${dd}`)
 
-    //console.log("🚀 ~ validateDate ~ inputFormated:", inputFormated)
+    console.log("🚀 ~ validateDate ~ inputFormated:", inputFormated)
 
     if (inputFormated < today) {
         return "Date must be greater than today"
@@ -35,7 +36,7 @@ function validateDate(date: Date) {
 
 
 const CreateForm = () => {
-    
+
     const {
         register,
         handleSubmit,

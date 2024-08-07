@@ -25,7 +25,7 @@ const tomorrow = new Date();
 tomorrow.setDate(today.getDate() + 1);
 
 
-
+//TODO: Verify areas can't add if it exists in array
 export const useFormStore = create<FormStore>()(persist((set, get) => {
 
     const storedForm = localStorage.getItem('form-store');

@@ -19,14 +19,14 @@ import { Area, useAreaStore } from '@/store/AreasStore';
 import Add from '@mui/icons-material/Add';
 import { FilterOptionsState } from '@mui/material';
 
+//TODO: Verify list and disable next button, if list is empty
+//TODO: wouldn't add duplicated area
 
 const AddAreasToForm: FC = () => {
-
-    const [value, setValue] = useState<Area | null>(null);
     const filter = createFilterOptions<Area>();
 
     const { prevStep, nextStep } = useFormStore();
-    const { getAreas, addArea, removeArea, clearAreas } = useAreaStore();
+    const { addArea, clearAreas } = useAreaStore();
     const { areasForm } = useAreaStore(
         (state) => ({
             areasForm: state.areasForm
@@ -48,22 +48,23 @@ const AddAreasToForm: FC = () => {
 
 
 
-    const handleOptionLabel = (option: any) => {
+    const handleOptionLabel = (option: string | Area) => {
         if (typeof option === "string") {
             return option
         }
         if (option.inputValue) {
             return option.inputValue
         }
-        if (option.name) {
-            return option.name
-        }
+        return option.name
     }
 
     const handleFilteredOptons = (options: Array<Area>, params: FilterOptionsState<Area>) => {
-
         const filtered = filter(options, params)
-        if (params.inputValue !== '') {
+
+        const { inputValue } = params
+
+        const isExisting = options.some((option) => inputValue === option.name)
+        if (params.inputValue !== '' && !isExisting) {
             filtered.push({
                 inputValue: params.inputValue,
                 name: `Add "${params.inputValue}"`,
@@ -73,14 +74,12 @@ const AddAreasToForm: FC = () => {
     }
 
     const handleChange = (event: SyntheticEvent<Element, Event>, newValue: string | Area | null) => {
-        console.log("🚀 ~ newValue:", newValue)
         if (typeof newValue === 'string') {
             addArea(newValue)
         } else if (newValue && newValue.inputValue) {
-
             addArea(newValue.inputValue)
-        } else {
-            addArea(String(newValue))
+        } else if (newValue) {
+            addArea(newValue.name)
         }
     }
 
@@ -108,13 +107,11 @@ const AddAreasToForm: FC = () => {
                     id='areas'
                     startDecorator={<DashboardCustomizeIcon />}
                     placeholder='select areas'
-                    value={value}
                     onChange={handleChange}
                     filterOptions={handleFilteredOptons}
                     selectOnFocus
-                    clearOnBlur
+                    blurOnSelect
                     handleHomeEndKeys
-                    freeSolo
                     options={areasForm}
                     getOptionLabel={handleOptionLabel}
                     renderOption={handleRenderOption}
