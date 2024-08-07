@@ -1,13 +1,13 @@
 "use cliet"
+import { useAreaStore } from '@/store/AreasStore'
 import { Sheet, Table } from '@mui/joy'
 import React from 'react'
 
-interface props {
-    optionsList: string[]
-}
+const DisplayAreasTable: React.FC = () => {
 
-
-const DisplayAreasTable: React.FC<props> = ({ optionsList }) => {
+    const { areas } = useAreaStore((state) => ({
+        areas: state.areasForm
+    }))
     return (
         <Sheet sx={{ height: "200px", overflow: "auto" }}>
             <Table
@@ -24,10 +24,10 @@ const DisplayAreasTable: React.FC<props> = ({ optionsList }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {optionsList.map((area, index) => (
+                    {Array.isArray(areas) && areas.map((area, index) => (
                         <tr key={index}>
                             <td>{index + 1}</td>
-                            <td>{area}</td>
+                            <td>{area.name}</td>
                         </tr>
                     ))}
                 </tbody>

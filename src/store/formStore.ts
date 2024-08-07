@@ -29,7 +29,6 @@ tomorrow.setDate(today.getDate() + 1);
 export const useFormStore = create<FormStore>()(persist((set, get) => {
 
     const storedForm = localStorage.getItem('form-store');
-
     return {
         form: storedForm ? JSON.parse(storedForm) : {
             title: '',
