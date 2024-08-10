@@ -25,12 +25,14 @@ const AreaModalDelete: React.FC<props> = ({ DeleteAreaName }) => {
     }))
 
     const handleDeleteArea = () => {
+        console.log('Area has been discarded successfully')
         removeArea({ name: DeleteAreaName })
         setMessage('Area has been discarded successfully')
+        setModalOpen(false)
     }
 
-    const handleOpenModal = () => {
-        setModalOpen(true)
+    const handleOpenModal = (open: boolean) => {
+        setModalOpen(open)
     }
 
     return (
@@ -39,7 +41,7 @@ const AreaModalDelete: React.FC<props> = ({ DeleteAreaName }) => {
                 variant='solid'
                 color='danger'
                 endDecorator={<DeleteForever />}
-                onClick={handleDeleteArea}
+                onClick={() => handleOpenModal(true)}
             >
                 Discard
             </Button>
@@ -60,10 +62,10 @@ const AreaModalDelete: React.FC<props> = ({ DeleteAreaName }) => {
                         Are you sure want to discard Area?
                     </DialogContent>
                     <DialogActions>
-                        <Button variant='solid' color='danger' >
-                            Discard Notes
+                        <Button variant='solid' color='danger' onClick={handleDeleteArea} >
+                            Delete Area !
                         </Button>
-                        <Button variant='plain' color='neutral'>
+                        <Button variant='plain' color='neutral' onClick={(event) => handleOpenModal(false)}>
                             Cancel
                         </Button>
                     </DialogActions>

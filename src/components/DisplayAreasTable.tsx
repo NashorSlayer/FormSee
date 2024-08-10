@@ -3,28 +3,14 @@ import { useAreaStore } from '@/store/areaStore'
 import { useAppStore } from '@/store/appStore'
 import { Box, Button, Sheet, Table } from '@mui/joy'
 import React from 'react'
-
-import DeleteIcon from '@mui/icons-material/Delete';
-import Modal from '@mui/joy/Modal';
-import ModalDialog from '@mui/joy/ModalDialog';
-import DialogTitle from '@mui/joy/DialogTitle';
-import DialogContent from '@mui/joy/DialogContent';
 import AreaModalDelete from './AreaModalDelete'
 
 const DisplayAreasTable: React.FC = () => {
 
-
-    const { removeArea, editArea } = useAreaStore();
-
-    const handleEditArea = (oldName: string, newName: string) => {
-
-    }
-
     const { areas } = useAreaStore((state) => ({
         areas: state.areasForm
     }))
-
-
+    
     return (
         <Sheet sx={{ height: "200px", overflow: "auto" }}>
             <Table
