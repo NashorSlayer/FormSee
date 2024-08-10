@@ -1,23 +1,30 @@
 "use cliet"
-import { useAreaStore } from '@/store/AreasStore'
+import { useAreaStore } from '@/store/areaStore'
+import { useAppStore } from '@/store/appStore'
 import { Box, Button, Sheet, Table } from '@mui/joy'
 import React from 'react'
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
+
 import DeleteIcon from '@mui/icons-material/Delete';
+import Modal from '@mui/joy/Modal';
+import ModalDialog from '@mui/joy/ModalDialog';
+import DialogTitle from '@mui/joy/DialogTitle';
+import DialogContent from '@mui/joy/DialogContent';
+import AreaModalDelete from './AreaModalDelete'
 
 const DisplayAreasTable: React.FC = () => {
 
 
     const { removeArea, editArea } = useAreaStore();
 
-    const handleEditArea = (area: string) => {
+    const handleEditArea = (oldName: string, newName: string) => {
 
     }
-
 
     const { areas } = useAreaStore((state) => ({
         areas: state.areasForm
     }))
+
+
     return (
         <Sheet sx={{ height: "200px", overflow: "auto" }}>
             <Table
@@ -36,23 +43,14 @@ const DisplayAreasTable: React.FC = () => {
                 </thead>
                 <tbody>
                     {Array.isArray(areas) && areas.map((area, index) => (
-                        <tr key={index}>
+                        <tr
+                            key={index}
+                        >
                             <td>{index + 1}</td>
                             <td>{area.name}</td>
                             <td>
                                 <Box sx={{ display: 'flex', gap: 1 }}>
-                                    <Button
-                                        size="sm"
-                                        color="warning"
-                                        variant="outlined"
-                                    ><ModeEditIcon />
-                                    </Button>
-                                    <Button
-                                        size="sm"
-                                        color="danger"
-                                        variant="outlined"
-                                    ><DeleteIcon />
-                                    </Button>
+                                    <AreaModalDelete DeleteAreaName={area.name} />
                                 </Box>
                             </td>
                         </tr>

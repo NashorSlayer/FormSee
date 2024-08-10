@@ -17,7 +17,7 @@ interface appStore {
     setMessage: (message: string) => void;
 }
 
-const useAppStore = create<appStore>((set) => ({
+export const useAppStore = create<appStore>((set) => ({
     app: {
         modalOpen: false,
         loading: false,

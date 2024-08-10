@@ -15,7 +15,7 @@ import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import DisplayAreasTable from './DisplayAreasTable';
 import { useFormStore } from '@/store/formStore';
 import { useRouter } from 'next/navigation';
-import { Area, useAreaStore } from '@/store/AreasStore';
+import { Area, useAreaStore } from '@/store/areaStore';
 import Add from '@mui/icons-material/Add';
 import { FilterOptionsState } from '@mui/material';
 
@@ -121,21 +121,9 @@ const AddAreasToForm: FC = () => {
                 <DisplayAreasTable />
             </Box>
             <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Button
-                    color='danger'
-                    onClick={handleBack}
-                >Back
-                </Button>
-                <Button
-                    onClick={clearAreas}
-                    color="warning"
-                >
-                    Clear
-                </Button>
-                <Button
-                    onClick={handleNext}
-                    color="primary"
-                >Next</Button>
+                <Button color='danger' onClick={handleBack}>Back</Button>
+                <Button onClick={clearAreas} color="warning">Clear</Button>
+                <Button onClick={handleNext} color="primary">Next</Button>
             </Box>
         </div>
     )
