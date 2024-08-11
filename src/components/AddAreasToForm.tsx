@@ -20,7 +20,6 @@ import Add from '@mui/icons-material/Add';
 import { FilterOptionsState } from '@mui/material';
 
 //TODO: Verify list and disable next button, if list is empty
-//TODO: wouldn't add duplicated area
 
 const AddAreasToForm: FC = () => {
     const filter = createFilterOptions<Area>();
