@@ -9,6 +9,8 @@ export interface Form {
     description: string;
     date_start: Date;
     date_end: Date;
+    type: string;
+    range: number;
     activeStep: number;
 }
 
@@ -18,6 +20,7 @@ interface FormStore {
     nextStep: () => void;
     prevStep: () => void;
     getForm: () => Form;
+    setTypes: (type: string) => void;
     clearForm: () => void;
 }
 const today = new Date();
@@ -35,18 +38,23 @@ export const useFormStore = create<FormStore>()(persist((set, get) => {
             description: '',
             date_start: today,
             date_end: tomorrow,
+            type: 'year',
+            range: 1,
             activeStep: 1
         },
         setForm: (form) => set((state) => ({ form: { ...state.form, ...form } })),
         nextStep: () => set((state) => ({ form: { ...state.form, activeStep: state.form.activeStep + 1 } })),
         prevStep: () => set((state) => ({ form: { ...state.form, activeStep: state.form.activeStep - 1 } })),
         getForm: () => get().form,
+        setTypes: (type) => set((state) => ({ form: { ...state.form, type } })),
         clearForm: () => set({
             form: {
                 title: '',
                 description: '',
                 date_start: today,
                 date_end: tomorrow,
+                type: 'year',
+                range: 1,
                 activeStep: 1
             }
         }),

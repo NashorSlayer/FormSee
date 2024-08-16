@@ -4,6 +4,7 @@ import { useFormStore } from '@/store/formStore';
 import { Box, Button, Typography } from '@mui/joy';
 import { List, ListItem, ListItemText } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import AreaPillBar from './AreaPillBar';
 
 const AreaList = () => {
 
@@ -34,6 +35,7 @@ const AreaList = () => {
                 >Areas List
                 </Typography>
                 <Button
+                    size='lg'
                     onClick={handleBack}
                     color='danger'
                     variant='solid'
