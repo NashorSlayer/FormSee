@@ -1,7 +1,7 @@
-import { error } from "console";
 import { create } from "zustand";
 
 export interface appType {
+    snackBarOpen: boolean;
     modalOpen: boolean;
     loading: boolean;
     error: Error | null;
@@ -15,10 +15,12 @@ interface appStore {
     setLoading: (loading: boolean) => void;
     setError: (error: Error) => void;
     setMessage: (message: string) => void;
+    setSnackBarOpen: (open: boolean) => void;
 }
 
 export const useAppStore = create<appStore>((set) => ({
     app: {
+        snackBarOpen: false,
         modalOpen: false,
         loading: false,
         error: null,
@@ -31,6 +33,6 @@ export const useAppStore = create<appStore>((set) => ({
         app: {
             ...state.app, message: message
         }
-    })
-    )
+    })),
+    setSnackBarOpen: (open) => set((state) => ({ app: { ...state.app, snackBarOpen: open } }))
 }))

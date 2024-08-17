@@ -1,9 +1,11 @@
-export enum AuthBackendPath {
+export const urlBackend = `${process.env.NEXT_PUBLIC_BACKEND_URL}`;
+
+export enum AuthBackendPaths {
     LOGIN = '/auth/login',
     REGISTER = '/auth/register',
 }
 
-export enum AreaBackendPath {
+export enum AreaBackendPaths {
     GET_ALL_AREAS = '/areas',
     GET_ONE_AREA = '/areas',
     CREATE_AREA = '/areas',
@@ -11,7 +13,7 @@ export enum AreaBackendPath {
     UPDATE_AREA = '/areas',
 }
 
-export enum FormBackendPath {
+export enum FormBackendPaths {
     GET_ALL_FORMS = '/forms',
     GET_ONE_FORM = '/forms',
     CREATE_FORM = '/forms',
@@ -19,7 +21,7 @@ export enum FormBackendPath {
     UPDATE_FORM = '/forms',
 }
 
-export enum UserBackendPath {
+export enum UserBackendPaths {
     GET_ALL_USERS = '/users',
     GET_ONE_USER = '/users',
     CREATE_USER = '/users',
@@ -27,12 +29,21 @@ export enum UserBackendPath {
     UPDATE_USER = '/users',
 }
 
-export enum AnswerBackendPath {
+export enum AnswerBackendPaths {
     GET_ALL_ANSWERS = '/answers',
     GET_AREAS_ANSWERS_FROM_ONE_FORM = '/answers',
     CREATE_ANSWER = '/answers',
     DELETE_ANSWER = '/answers',
 }
+
+export const HTTPMETHODS = {
+    POST: 'POST',
+    GET: 'GET',
+    PUT: 'PUT',
+    DELETE: 'DELETE',
+    PATCH: 'PATCH'
+}
+
 
 export const dataSetResponse = [
     {

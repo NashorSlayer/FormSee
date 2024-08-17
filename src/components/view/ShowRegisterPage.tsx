@@ -1,23 +1,37 @@
 'use client'
-import React, { useState } from 'react'
-import { Button, Container, FormControl, FormHelperText, FormLabel, Input } from '@mui/joy'
+import { Button, Container, FormControl, FormLabel, Input } from '@mui/joy'
 import Link from 'next/link';
 import Typography from '@mui/joy/Typography';
-import {  SubmitHandler,useForm} from 'react-hook-form';
-import { InfoOutlined } from '@mui/icons-material';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { registerData } from '@/types/authTypes';
+import ErrorAlertForm from '../common/ErrorAlertForm';
+import { RegisterApi } from '@/app/api/auth/route';
+import { useAppStore } from '@/store/appStore';
+import { SnackBarDanger, SnackBarSuccess } from '../common/SnackBarAlert';
+
+
 
 const ShowRegisterPage = () => {
-    const { register, handleSubmit, formState:{errors} } = useForm<registerData>();
-    const [loading, setLoading] = useState(false)
-    const onSubmit : SubmitHandler<registerData> = async (data) => {
+    const { register, handleSubmit, formState: { errors } } = useForm<registerData>();
+    const { loading } = useAppStore((state) => ({
+        loading: state.app.loading
+    }));
+    const { setLoading } = useAppStore()
+
+    const onSubmit: SubmitHandler<registerData> = async (data) => {
         setLoading(true)
-        console.log("🚀 ~ constonSubmit:SubmitHandler<registerData>= ~ data:", data)
+        const res = await RegisterApi(data)
+            .finally(
+                () => <SnackBarSuccess message='Usuario registrado con éxito' />
+            )
+            .catch(
+                () => <SnackBarDanger message='Error al registrar usuario' />
+            )
         setLoading(false)
     }
 
     return (
-       <section className=" bg-gray-50 dark:bg-gray-900">
+        <section className=" bg-gray-50 dark:bg-gray-900">
             <Container>
                 <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                     <Link href="/" className='flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white'>
@@ -30,22 +44,17 @@ const ShowRegisterPage = () => {
                             </Typography>
                             <FormControl className="space-y-4 md:space-y-6">
                                 <div>
-                                <FormLabel>Nombre de usuario</FormLabel>
-                                <Input
-                                    type="text"
-                                    {...register("username", { required: "El nombre de usuario es requerido" })}
-                                    placeholder='Ingrese su nombre de usuario'
-                                    variant='outlined'
-                                    color='primary' />
-                                {errors.username && (
-                                    <FormControl error>
-                                        <FormHelperText>
-                                            <InfoOutlined />
-                                            {errors.username.message}
-                                        </FormHelperText>
-                                    </FormControl>
-                                )}
-                                
+                                    <FormLabel>Nombre de usuario</FormLabel>
+                                    <Input
+                                        type="text"
+                                        {...register("username", { required: "El nombre de usuario es requerido" })}
+                                        placeholder='Ingrese su nombre de usuario'
+                                        variant='outlined'
+                                        color='primary' />
+                                    {errors.username && (
+                                        <ErrorAlertForm message={errors.username.message} />
+                                    )}
+
                                 </div>
                             </FormControl>
 
@@ -54,44 +63,35 @@ const ShowRegisterPage = () => {
                                     <FormLabel>Correo electrónico</FormLabel>
                                     <Input
                                         type="email"
-                                        {...register("email", { required: "El email es requerido",
-                                         validate: {
-                                            email: (value) => {
-                                                return /^\S+@\S+$/i.test(value) || "El correo electrónico no es válido";
+                                        {...register("email", {
+                                            required: "El email es requerido",
+                                            validate: {
+                                                email: (value) => {
+                                                    return /^\S+@\S+$/i.test(value) || "El correo electrónico no es válido";
+                                                }
                                             }
-                                         } 
                                         })}
                                         placeholder='Ingrese su correo electrónico'
                                         variant='outlined'
-                                        color='primary'/>
-                                        {errors.email && (
-                                            <FormControl error>
-                                                <FormHelperText>
-                                                    <InfoOutlined />
-                                                    {errors.email.message}
-                                                </FormHelperText>
-                                            </FormControl>
-                                        )}
-                                    
+                                        color='primary' />
+                                    {errors.email && (
+                                        <ErrorAlertForm message={errors.email.message} />
+                                    )}
+
                                 </div>
                             </FormControl>
-                                <div>
-                                    <FormLabel>Contraseña</FormLabel>
-                                    <Input
-                                        type="password"
-                                        {...register("password", { required: "La contraseña es requerida" })}
-                                        placeholder='Ingrese su contraseña'
-                                        variant='outlined'
-                                        color='primary'/>
-                                        {errors.password && (
-                                            <FormControl error>
-                                                <FormHelperText>
-                                                    <InfoOutlined />
-                                                        {errors.password.message}
-                                                </FormHelperText>
-                                            </FormControl>
-                                        )}
-                                </div>
+                            <div>
+                                <FormLabel>Contraseña</FormLabel>
+                                <Input
+                                    type="password"
+                                    {...register("password", { required: "La contraseña es requerida" })}
+                                    placeholder='Ingrese su contraseña'
+                                    variant='outlined'
+                                    color='primary' />
+                                {errors.password && (
+                                    <ErrorAlertForm message={errors.password.message} />
+                                )}
+                            </div>
                             <FormControl>
                                 <div>
                                     <FormLabel>Confirme su contraseña</FormLabel>
@@ -100,21 +100,16 @@ const ShowRegisterPage = () => {
                                         {...register("passwordConfirm", { required: "La confirmación de contraseña es requerida" })}
                                         placeholder='Confirme su contraseña'
                                         variant='outlined'
-                                        color='primary'/>
-                                        {errors.passwordConfirm && (
-                                        <FormControl error>
-                                            <FormHelperText>
-                                                <InfoOutlined />
-                                                {errors.passwordConfirm.message}
-                                            </FormHelperText>
-                                        </FormControl>
-                                        )}
+                                        color='primary' />
+                                    {errors.passwordConfirm && (
+                                        <ErrorAlertForm message={errors.passwordConfirm.message} />
+                                    )}
                                 </div>
                             </FormControl>
                             <div>
                                 <Button
-                                loading = {loading}
-                                onClick = {handleSubmit(onSubmit)}>
+                                    loading={loading}
+                                    onClick={handleSubmit(onSubmit)}>
                                     Registrarse
                                 </Button>
                             </div>
@@ -122,7 +117,7 @@ const ShowRegisterPage = () => {
                     </div>
                 </div>
             </Container>
-       </section>
+        </section>
     )
 }
 
