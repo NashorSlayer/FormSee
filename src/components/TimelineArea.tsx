@@ -2,13 +2,19 @@
 import { useAreaStore } from '@/store/areaStore';
 import { useFormStore } from '@/store/formStore';
 import { ITimesAreasResponse } from '@/types/time_areas.types';
-import { Height } from '@mui/icons-material';
 import { Box, Button, FormLabel, Input } from '@mui/joy';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import ErrorAlertForm from './common/ErrorAlertForm';
 import { useAppStore } from '@/store/appStore';
+import { DndContext, closestCenter } from '@dnd-kit/core';
+import {
+    arrayMove,
+    SortableContext,
+    verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+
 
 
 const chartSetting = {
@@ -52,6 +58,14 @@ const TimelineArea = () => {
         console.log('graduatedNumber', graduatedNumber)
     }
 
+
+    const handleDragEnd = (event: any) => {
+        const { active, over } = event;
+        if (active.id !== over.id) {
+
+        }
+    }
+
     const validateGraduatedNumber = (value: number) => {
         if (type === 'day') {
             if (value > 31) {
@@ -80,6 +94,7 @@ const TimelineArea = () => {
         console.log("🚀 ~ generateRange ~ rangeArray:", rangeArray)
     }
 
+    const maxmonth = 12 * form?.range;
 
 
     return (

@@ -7,7 +7,6 @@ import { registerData } from '@/types/authTypes';
 import ErrorAlertForm from '../common/ErrorAlertForm';
 import { RegisterApi } from '@/app/api/auth/route';
 import { useAppStore } from '@/store/appStore';
-import { SnackBarDanger, SnackBarSuccess } from '../common/SnackBarAlert';
 
 
 
@@ -22,10 +21,10 @@ const ShowRegisterPage = () => {
         setLoading(true)
         const res = await RegisterApi(data)
             .finally(
-                () => <SnackBarSuccess message='Usuario registrado con éxito' />
+                () => console.log(res)
             )
             .catch(
-                () => <SnackBarDanger message='Error al registrar usuario' />
+                () => console.log('error')
             )
         setLoading(false)
     }

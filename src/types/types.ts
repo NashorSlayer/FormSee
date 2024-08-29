@@ -9,3 +9,12 @@ export type IFormData = {
         id: string;
     }
 }
+
+export type ExperienceItem = {
+    id: string
+    content: string
+    start: number
+    end: number
+}
+
+
