@@ -1,39 +1,39 @@
 export const urlBackend = `${process.env.NEXT_PUBLIC_BACKEND_URL}`;
 
 export enum AuthBackendPaths {
-    LOGIN = '/auth/login',
-    REGISTER = '/auth/register',
+    LOGIN = 'auth/signIn',
+    REGISTER = 'auth/signUp',
 }
 
 export enum AreaBackendPaths {
-    GET_ALL_AREAS = '/areas',
-    GET_ONE_AREA = '/areas',
-    CREATE_AREA = '/areas',
-    DELETE_AREA = '/areas',
-    UPDATE_AREA = '/areas',
+    GET_ALL_AREAS = 'areas',
+    GET_ONE_AREA = 'areas',
+    CREATE_AREA = 'areas',
+    DELETE_AREA = 'areas',
+    UPDATE_AREA = 'areas',
 }
 
 export enum FormBackendPaths {
-    GET_ALL_FORMS = '/forms',
-    GET_ONE_FORM = '/forms',
-    CREATE_FORM = '/forms',
-    DELETE_FORM = '/forms',
-    UPDATE_FORM = '/forms',
+    GET_ALL_FORMS = 'forms',
+    GET_ONE_FORM = 'forms',
+    CREATE_FORM = 'forms',
+    DELETE_FORM = 'forms',
+    UPDATE_FORM = 'forms',
 }
 
 export enum UserBackendPaths {
-    GET_ALL_USERS = '/users',
-    GET_ONE_USER = '/users',
-    CREATE_USER = '/users',
-    DELETE_USER = '/users',
-    UPDATE_USER = '/users',
+    GET_ALL_USERS = 'users',
+    GET_ONE_USER = 'users',
+    CREATE_USER = 'users',
+    DELETE_USER = 'users',
+    UPDATE_USER = 'users',
 }
 
 export enum AnswerBackendPaths {
-    GET_ALL_ANSWERS = '/answers',
-    GET_AREAS_ANSWERS_FROM_ONE_FORM = '/answers',
-    CREATE_ANSWER = '/answers',
-    DELETE_ANSWER = '/answers',
+    GET_ALL_ANSWERS = 'answers',
+    GET_AREAS_ANSWERS_FROM_ONE_FORM = 'answers',
+    CREATE_ANSWER = 'answers',
+    DELETE_ANSWER = 'answers',
 }
 
 export const HTTPMETHODS = {

@@ -1,5 +1,7 @@
 'use client'
-import { Button, Container, FormControl, FormLabel, Input } from '@mui/joy'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import DangerousIcon from '@mui/icons-material/Dangerous';
+import { Button, Container, FormControl, FormLabel, Input, Snackbar } from '@mui/joy'
 import Link from 'next/link';
 import Typography from '@mui/joy/Typography';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -7,27 +9,30 @@ import { registerData } from '@/types/authTypes';
 import ErrorAlertForm from '../common/ErrorAlertForm';
 import { RegisterApi } from '@/app/api/auth/route';
 import { useAppStore } from '@/store/appStore';
-import { SnackBarDanger, SnackBarSuccess } from '../common/SnackBarAlert';
-
-
+import { useState } from 'react';
+import { SnackBarDanger, SnackBarSuccess } from '../common/SnackBarOptions';
 
 const ShowRegisterPage = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<registerData>();
     const { loading } = useAppStore((state) => ({
-        loading: state.app.loading
+        loading: state.app.loading,
     }));
     const { setLoading } = useAppStore()
 
+    const [open, setSnackBarOpen] = useState(false)
+    const [snackDanger, setSnackDanger] = useState(false)
+
+    const handleClose = () => {
+        setSnackBarOpen(false)
+        setSnackDanger(false)
+    }
+
     const onSubmit: SubmitHandler<registerData> = async (data) => {
         setLoading(true)
-        const res = await RegisterApi(data)
-            .finally(
-                () => <SnackBarSuccess message='Usuario registrado con éxito' />
-            )
-            .catch(
-                () => <SnackBarDanger message='Error al registrar usuario' />
-            )
-        setLoading(false)
+        await RegisterApi(data)
+            .then(() => setSnackBarOpen(true))
+            .catch(() => setSnackDanger(true))
+            .finally(() => setLoading(false))
     }
 
     return (
@@ -57,7 +62,6 @@ const ShowRegisterPage = () => {
 
                                 </div>
                             </FormControl>
-
                             <FormControl className="space-y-4 md:space-y-6">
                                 <div>
                                     <FormLabel>Correo electrónico</FormLabel>
@@ -112,6 +116,16 @@ const ShowRegisterPage = () => {
                                     onClick={handleSubmit(onSubmit)}>
                                     Registrarse
                                 </Button>
+                                <SnackBarSuccess
+                                    message='Usuario registrado con éxito'
+                                    snackBarOpen={open}
+                                    handleClose={handleClose}
+                                />
+                                <SnackBarDanger
+                                    message='Error, usuario ya registrado'
+                                    snackBarOpen={snackDanger}
+                                    handleClose={handleClose}
+                                />
                             </div>
                         </div>
                     </div>

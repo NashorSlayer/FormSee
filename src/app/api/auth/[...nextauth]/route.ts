@@ -20,7 +20,10 @@ export const authOptions = {
                         password: credentials?.password
                     })
                 });
-                if (res.status != 200) throw new Error(res.statusText);
+                if (res.status != 200) {
+
+                    throw new Error(res.statusText);
+                }
                 const response = await res.json();
 
                 //USAR JWT DEL BACKEND
@@ -43,7 +46,7 @@ export const authOptions = {
     },
 
     pages: {
-        signIn: '/signIn',
+        signIn: '/login',
     },
 
 };
