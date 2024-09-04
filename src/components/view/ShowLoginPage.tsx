@@ -1,30 +1,38 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { signIn } from 'next-auth/react';
-import { Button, Container, FormControl, FormLabel, Input, Snackbar } from '@mui/joy'
+import {
+    Button,
+    Container,
+    FormControl,
+    FormLabel,
+    Input
+} from '@mui/joy'
 import Link from 'next/link';
 import Typography from '@mui/joy/Typography';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { loginData } from '@/types/authTypes';
 import { useAppStore } from '@/store/appStore';
 import ErrorAlertForm from '../common/ErrorAlertForm';
+import { SnackBarDanger, SnackBarSuccess } from '../common/SnackBarOptions';
+import { useRouter } from 'next/navigation';
 
 const ShowLoginPage = () => {
 
     const { register, handleSubmit, formState: { errors } } = useForm<loginData>();
-    const { loading, snackBarOpen } = useAppStore((state) => ({
+    const { loading } = useAppStore((state) => ({
         loading: state.app.loading,
-        snackBarOpen: state.app.snackBarOpen
     }));
-    const { setLoading, setSnackBarOpen } = useAppStore()
+    const { setLoading } = useAppStore()
 
+    const [open, setSnackBarOpen] = useState(false)
+    const [snackDanger, setSnackDanger] = useState(false)
 
-    const handleClick = () => {
-        setSnackBarOpen(true);
-    }
+    const router = useRouter()
 
     const handleClose = () => {
-        setSnackBarOpen(false);
+        setSnackBarOpen(false)
+        setSnackDanger(false)
     }
 
 
@@ -35,9 +43,11 @@ const ShowLoginPage = () => {
             password: data.password,
             redirect: false
         })
-            .finally(() => ({}))
-            .catch(() => ({}))
-        setLoading(false)
+            .then((res) => (res?.status === 200 ? (setSnackBarOpen(true), router.push('/user/createForms')) : setSnackDanger(true)))
+            .catch(() => setSnackDanger(true))
+            .finally(() => setLoading(false))
+
+
     }
     return (
         <section className=" bg-gray-50 dark:bg-gray-900">
@@ -90,26 +100,26 @@ const ShowLoginPage = () => {
                             <div>
                                 <Button
                                     loading={loading}
-                                    onClick={handleClick}>
+                                    onClick={handleSubmit(onSubmit)}>
                                     Ingresar
                                 </Button>
-                                <Snackbar
-                                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                                    open={snackBarOpen}
-                                    onClose={handleClose}
-                                    color='success'
-                                    variant='solid'
-                                    autoHideDuration={4000}
-                                    key={'top' + 'right'}
-                                >
-                                    I love snacks
-                                </Snackbar>
+                                <SnackBarSuccess
+                                    message='Usuario registrado con éxito'
+                                    snackBarOpen={open}
+                                    handleClose={handleClose}
+                                />
+                                <SnackBarDanger
+                                    message='Error, credenciales incorrectas'
+                                    snackBarOpen={snackDanger}
+                                    handleClose={handleClose}
+                                />
                             </div>
                         </div>
                     </div>
                 </div>
             </Container>
         </section>
+
     )
 }
 
