@@ -9,7 +9,7 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import { useAppStore } from '@/store/appStore';
-import React from 'react';
+import React, { useState } from 'react';
 import { useAreaStore } from '@/store/areaStore';
 
 interface props {
@@ -18,21 +18,17 @@ interface props {
 
 const AreaModalDelete: React.FC<props> = ({ DeleteAreaName }) => {
 
-    const { setModalOpen, setMessage } = useAppStore()
+
     const { removeArea } = useAreaStore()
-    const { modalOpen } = useAppStore((state) => ({
-        modalOpen: state.app.modalOpen
-    }))
+    const [open, toggleOpen] = useState(false)
 
     const handleDeleteArea = () => {
-        console.log('Area has been discarded successfully')
         removeArea({ name: DeleteAreaName })
-        setMessage('Area has been discarded successfully')
-        setModalOpen(false)
+        toggleOpen(false)
     }
 
     const handleOpenModal = (open: boolean) => {
-        setModalOpen(open)
+        toggleOpen(open)
     }
 
     return (
@@ -46,7 +42,7 @@ const AreaModalDelete: React.FC<props> = ({ DeleteAreaName }) => {
                 Discard
             </Button>
             <Modal
-                open={modalOpen}
+                open={open}
                 onClose={handleOpenModal}
             >
                 <ModalDialog
