@@ -43,7 +43,9 @@ const ShowLoginPage = () => {
             password: data.password,
             redirect: false
         })
-            .then((res) => (res?.status === 200 ? (setSnackBarOpen(true), router.push('/user/createForms')) : setSnackDanger(true)))
+            .then((res) => (res?.status === 200 ? (
+                setSnackBarOpen(true),
+                router.push('/user/createForms')) : setSnackDanger(true)))
             .catch(() => setSnackDanger(true))
             .finally(() => setLoading(false))
 
@@ -104,7 +106,7 @@ const ShowLoginPage = () => {
                                     Ingresar
                                 </Button>
                                 <SnackBarSuccess
-                                    message='Usuario registrado con éxito'
+                                    message='Ingresado con éxito'
                                     snackBarOpen={open}
                                     handleClose={handleClose}
                                 />

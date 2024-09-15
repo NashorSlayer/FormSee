@@ -16,6 +16,7 @@ interface AreaStore {
     getAreas: () => Array<Area>;
     clearAreas: () => void;
     AreaExists: (area: string) => boolean;
+    setAreasForm: (areas: Array<Area>) => void;
 }
 
 export const useAreaStore = create<AreaStore>()(persist((set, get) => {
@@ -47,7 +48,10 @@ export const useAreaStore = create<AreaStore>()(persist((set, get) => {
         },
         AreaExists: (area) => {
             return get().areasForm.some((a: Area) => a.name === area)
-        }
+        },
+        setAreasForm: (areas) => set({
+            areasForm: areas
+        })
     }
 }, {
     name: "areas-store"

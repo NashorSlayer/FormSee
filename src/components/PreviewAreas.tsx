@@ -1,14 +1,16 @@
 "use client"
-import { Box, Button, Container, Divider, Sheet, Stack, Typography } from '@mui/joy'
-import React, { useState } from 'react'
+import { Box } from '@mui/joy'
+import { useState } from 'react'
 import AreaPillBar from './AreaPillBar'
-import { DndContext, closestCenter } from '@dnd-kit/core'
+import { DndContext, DragEndEvent, closestCenter } from '@dnd-kit/core'
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { BarChart } from '@mui/x-charts/BarChart';
 import { useFormStore } from '@/store/formStore'
 import { useRouter } from 'next/navigation'
 import AreaList from './AreaListPreview'
 import TimelineArea from './TimelineArea'
+import { Area, useAreaStore } from '@/store/areaStore'
+import { ExperienceItem } from '@/types/types'
 
 const PreviewAreas: React.FC = () => {
 
@@ -17,11 +19,16 @@ const PreviewAreas: React.FC = () => {
     const { form } = useFormStore()
     const { title, description } = form
 
-    const { prevStep } = useFormStore();
+    const { areasForm } = useAreaStore((state) => ({
+        areasForm: state.areasForm
+    }))
 
-    const handleBack = () => {
-        prevStep()
-        router.refresh()
+    const { setAreasForm } = useAreaStore()
+
+    const handleDragEnd = (event: DragEndEvent) => {
+        const { active, over } = event
+
+
     }
 
     return (
@@ -32,21 +39,26 @@ const PreviewAreas: React.FC = () => {
             width: "100vw",
             margin: "2",
         }}>
-            <Box sx={{
-                width: "30%",
-                padding: "1rem",
-            }}>
-                <AreaList />
-            </Box>
-            <Box sx={{
-                width: "70%",
-                padding: "1rem",
-                boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
-                borderRadius: "10px",
-                backgroundColor: "white",
-            }}>
-                <TimelineArea />
-            </Box>
+            <DndContext
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+            >
+                <Box sx={{
+                    width: "30%",
+                    padding: "1rem",
+                }}>
+                    <AreaList />
+                </Box>
+                <Box sx={{
+                    width: "70%",
+                    padding: "1rem",
+                    boxShadow: "0 0 10px 0 rgba(0,0,0,0.1)",
+                    borderRadius: "10px",
+                    backgroundColor: "white",
+                }}>
+                    <TimelineArea />
+                </Box>
+            </DndContext>
         </Box >
 
     )

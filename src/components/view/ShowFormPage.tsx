@@ -10,20 +10,6 @@ import PreviewAreas from '../PreviewAreas';
 import { useFormStore } from '@/store/formStore';
 import HeaderCreateForm from '../HeaderCreateForm';
 
-
-const areasList = [
-    'Area 1',
-    'Area 2',
-    'Area 3',
-    'Area 4',
-    'Area 5',
-    'Area 6',
-    'Area 7',
-    'Area 8',
-    'Area 9',
-    'Area 10'
-]
-
 const ShowFormPage = () => {
 
     const { activeStep } = useFormStore(

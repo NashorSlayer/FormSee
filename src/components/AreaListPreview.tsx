@@ -1,18 +1,21 @@
 "use client"
-import { useAreaStore } from '@/store/areaStore';
+import { useAreaStore, Area } from '@/store/areaStore';
 import { useFormStore } from '@/store/formStore';
-import { Box, Button, Typography } from '@mui/joy';
-import { List, ListItem, ListItemText } from '@mui/material';
+import { Box, Button, Stack, Typography } from '@mui/joy';
 import { useRouter } from 'next/navigation';
-import AreaPillBar from './AreaPillBar';
+import {
+    SortableContext,
+    verticalListSortingStrategy
+} from '@dnd-kit/sortable';
+import AreaItem from './AreaItem';
 
 const AreaList = () => {
 
     const router = useRouter()
     const { prevStep } = useFormStore();
 
-    const { areasForm } = useAreaStore((state) => ({
-        areasForm: state.areasForm
+    const { areas } = useAreaStore((state) => ({
+        areas: state.areasForm
     }));
 
     const handleBack = () => {
@@ -23,7 +26,12 @@ const AreaList = () => {
     return (
         <Box>
             <Box
-                sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    mb: 2
+                }}
             >
                 <Typography
                     id="decorated-list-demo"
@@ -43,15 +51,34 @@ const AreaList = () => {
                     Back
                 </Button>
             </Box>
-            <List>
-                {areasForm.map((area, index) => (
-                    <ListItem key={index} className="rounded-lg bg-gray-800 text-white my-2">
-                        <ListItemText primary={area.name} />
-                    </ListItem>
-                ))}
-            </List>
+            <Box>
+                {areas && Array.isArray(areas) ? (
+                    <Stack spacing={2}>
+                        <SortableContext
+                            items={areas.map((area) => area.name)}
+                            strategy={verticalListSortingStrategy}
+                        >
+                            {areas.map((area, index) => (
+                                <AreaItem key={index} area={area} />
+                            ))}
+                        </SortableContext>
+                    </Stack>
+                ) : (
+                    <Typography
+                        level="body-md"
+                        textAlign="center"
+                        mt={2}
+                    >
+                        No areas added yet
+                    </Typography>
+                )
+
+                }
+            </Box>
         </Box>
     );
 };
 
 export default AreaList;
+
+
