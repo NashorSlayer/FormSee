@@ -2,7 +2,7 @@
 import { useAreaStore } from '@/store/areaStore';
 import { useFormStore } from '@/store/formStore';
 import { ITimesAreasResponse } from '@/types/time_areas.types';
-import { Box, Button, FormLabel, Input } from '@mui/joy';
+import { Box, Button, FormLabel, Input, Typography } from '@mui/joy';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -27,8 +27,8 @@ const chartSetting = {
         type: 'ordinal',
         colors: ['purple', 'yellow']
     },
-    width: 400,
-    height: 700,
+    width: 700,
+    height: 600,
 };
 
 const valueFormatter = (value: number | null) => `${value} year`;
@@ -45,7 +45,7 @@ const TimelineArea = () => {
         })
     );
     const { form } = useFormStore();
-    const { range, type } = form;
+    const { title, description, range, type } = form;
     const {
         register,
         handleSubmit,
@@ -82,7 +82,6 @@ const TimelineArea = () => {
         }
     }
 
-
     const [rangeArray, setRangeArray] = useState<string[]>([])
     const generateRange = () => {
         if (graduatedNumber) {
@@ -96,68 +95,86 @@ const TimelineArea = () => {
 
     const maxmonth = 12 * form?.range;
 
-
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
+        <Box sx={{
+            display: 'flex',
+            gap: '10px',
+            flexDirection: 'column',
+        }}>
             <Box sx={{
                 display: 'flex',
                 flexDirection: 'row',
-                height: '5vh',
+                height: '10vh',
                 justifyContent: 'space-between',
+                alignItems: 'center',
             }}>
-                <Box flexDirection={'column'}>
-                    <FormLabel>Graduated number</FormLabel>
-                    <Input
-                        {...register('graduatedNumber',
-                            {
-                                required: 'Graduated number is required',
-                                value: graduatedNumber!,
-                                validate: validateGraduatedNumber
-                            })}
-                        placeholder={`enter your ${type} of graduated`}
-                        onChange={(e) => handleChangeInputGraduatedNumber(e)}
-                        type='number'
-                    />
-                    {errors.graduatedNumber && (
-                        <ErrorAlertForm message={errors.graduatedNumber.message} />
-                    )}
+                <Box flexDirection='column'>
+                    <Box>
+                        <Typography level='h1'>{title}</Typography>
+                    </Box>
                 </Box>
-                <Button
-                    size='lg'
-                    color='success'
-                    variant='solid'
-                    onClick={handleSubmit(generateRange)}
-                >Save</Button>
+                <Box>
+                    <Button
+                        size='lg'
+                        color='success'
+                        variant='solid'
+                        onClick={handleSubmit(generateRange)}
+                    >Save</Button>
+                </Box>
             </Box>
             <Box sx={{
-                height: '70vh',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
+                height: '69vh',
             }}>
-                <BarChart
-                    dataset={timesDedicatedResponse}
-                    borderRadius={50}
-                    layout='horizontal'
-                    loading={loading}
-                    yAxis={[{
-                        scaleType: 'band',
-                        dataKey: 'name',
-                        colorMap: {
-                            type: 'piecewise',
-                            thresholds: [0],
-                            colors: ['skyblue']
-                        },
-                    }]}
-                    series={[{
-                        dataKey: 'value_exp',
-                        label: 'Experience',
-                        color: 'skyblue',
-                        valueFormatter,
-                    }]}
-                    grid={{ vertical: true }}
-                    {...chartSetting}
-                />
+                <Box sx={{
+                    flexDirection: 'row',
+                    display: 'flex',
+                    justifyContent: 'end',
+                }}>
+                    <Box sx={{ width: '20vh', }}>
+                        <FormLabel>Graduated number</FormLabel>
+                        <Input
+                            {...register('graduatedNumber',
+                                {
+                                    required: 'Graduated number is required',
+                                    value: graduatedNumber!,
+                                    validate: validateGraduatedNumber
+                                })}
+                            placeholder={`enter your ${type} of graduated`}
+                            onChange={(e) => handleChangeInputGraduatedNumber(e)}
+                            type='number'
+                        />
+                        {errors.graduatedNumber && (
+                            <ErrorAlertForm message={errors.graduatedNumber.message} />
+                        )}
+                    </Box>
+                </Box>
+                <Box >
+                    <BarChart
+                        dataset={timesDedicatedResponse}
+                        borderRadius={50}
+                        layout='horizontal'
+                        loading={loading}
+                        yAxis={[{
+                            scaleType: 'band',
+                            dataKey: 'name',
+                            colorMap: {
+                                type: 'piecewise',
+                                thresholds: [0],
+                                colors: ['skyblue']
+                            },
+                        }]}
+                        series={[{
+                            dataKey: 'value_exp',
+                            label: 'Experience',
+                            color: 'skyblue',
+                            valueFormatter,
+                        }]}
+                        grid={{ vertical: true }}
+                        {...chartSetting}
+                    />
+                    <Box>
+                    </Box>
+                </Box>
             </Box>
         </Box >
     );
@@ -166,16 +183,5 @@ const TimelineArea = () => {
 export default TimelineArea;
 
 const timesDedicatedResponse = [
-    {
-        "name": "Ciberseguridad",
-        "value_exp": 1.5
-    },
-    {
-        "name": "Desarrollo de Software",
-        "value_exp": 0
-    },
-    {
-        "name": "IA",
-        "value_exp": 3
-    }
+
 ]

@@ -1,39 +1,22 @@
 "use client"
-import { FC, HTMLAttributes, SyntheticEvent } from 'react'
+import { FC } from 'react'
 import {
-    Autocomplete,
     Box,
-    FormLabel,
     Button,
-    FormControl,
     Typography,
-    createFilterOptions,
-    AutocompleteOption,
-    ListItemDecorator,
-    AutocompleteRenderOptionState,
 } from '@mui/joy'
-import DashboardCustomizeIcon from '@mui/icons-material/DashboardCustomize';
 import DisplayAreasTable from './DisplayAreasTable';
 import { useFormStore } from '@/store/formStore';
 import { useRouter } from 'next/navigation';
-import { Area, useAreaStore } from '@/store/areaStore';
-import Add from '@mui/icons-material/Add';
+import { useAreaStore } from '@/store/areaStore';
 import AutoCompleteInput from './AutoCompleteInput';
-
-
-const filter = createFilterOptions<Area>();
 
 const AddAreasToForm: FC = () => {
 
     const { prevStep, nextStep } = useFormStore();
-    const { addArea, clearAreas } = useAreaStore();
-    const { areasForm } = useAreaStore(
-        (state) => ({
-            areasForm: state.areasForm
-        })
-    )
-    const router = useRouter()
+    const { clearAreas } = useAreaStore();
 
+    const router = useRouter()
 
     const handleBack = () => {
         prevStep()

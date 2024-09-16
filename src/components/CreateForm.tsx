@@ -77,7 +77,6 @@ const CreateForm = () => {
 
     const handleClickToggleButtonGroup = (value: string | null) => {
         if (value) setTypes(value)
-
     }
     return (
         <Box sx={{

@@ -1,7 +1,6 @@
 "use cliet"
 import { useAreaStore } from '@/store/areaStore'
-import { useAppStore } from '@/store/appStore'
-import { Box, Button, Sheet, Table } from '@mui/joy'
+import { Box, Sheet, Table } from '@mui/joy'
 import React from 'react'
 import AreaModalDelete from './AreaModalDelete'
 
@@ -10,7 +9,7 @@ const DisplayAreasTable: React.FC = () => {
     const { areas } = useAreaStore((state) => ({
         areas: state.areasForm
     }))
-    
+
     return (
         <Sheet sx={{ height: "200px", overflow: "auto" }}>
             <Table

@@ -8,7 +8,6 @@ import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import DeleteForever from '@mui/icons-material/DeleteForever';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
-import { useAppStore } from '@/store/appStore';
 import React, { useState } from 'react';
 import { useAreaStore } from '@/store/areaStore';
 
@@ -61,7 +60,10 @@ const AreaModalDelete: React.FC<props> = ({ DeleteAreaName }) => {
                         <Button variant='solid' color='danger' onClick={handleDeleteArea} >
                             Delete Area !
                         </Button>
-                        <Button variant='plain' color='neutral' onClick={(event) => handleOpenModal(false)}>
+                        <Button
+                            variant='plain'
+                            color='neutral'
+                            onClick={(event) => handleOpenModal(false)}>
                             Cancel
                         </Button>
                     </DialogActions>
